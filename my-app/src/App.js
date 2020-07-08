@@ -1,11 +1,8 @@
-
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import axios from 'axios';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';  
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-
-
 
 class Table extends Component {
 	state = {
@@ -13,61 +10,43 @@ class Table extends Component {
 
 		columns: [
 			{
-				dataField: 'ID_WS',
-				text: 'ID_WS',
-        sort: true,
-				  
-				
-			},
-
-			{
-				dataField: 'ID_STR_RT',
-				text: 'ID_STR_RT',
-        sort: true,
-        filter: textFilter()
-
-			},
-			{
-				dataField: 'DC_DY_BSN',
-				text: 'DC_DY_BSN',
+				dataField: 'id',
+				text: 'id',
 				sort: true
 			},
 
 			{
-				dataField: 'AI_TRN',
-				text: 'AI_TRN'
-				
+				dataField: 'quantity',
+				text: 'quantity',
+				sort: true
+			},
+			{
+				dataField: 'itemDesc',
+				text: 'itemDesc',
+				sort: true
 			},
 
 			{
-				dataField: 'TY_SND_CT',
-				text: 'TY_SND_CT',
-				sort : true
-      },
-      {
-				dataField: 'ID_EM',
-				text: 'ID_EM',
-				sort : true
-      },
-      {
-				dataField: 'ID_CT',
-				text: 'ID_CT',
-				sort : true
-      },
-      {
-				dataField: 'MO_SLS_TOT',
-				text: 'MO_SLS_TOT',
-				sort : true
+				dataField: 'SalesTotal',
+				text: 'SalesTotal',
+				filter: textFilter()
 			},
+
+			{
+				dataField: 'Department',
+				text: 'Department',
+				sort: true
+			}
 		]
 	};
 
 	componentDidMount() {
-		axios.get('http://frwsnodedev.us-east-1.elasticbeanstalk.com/transactions?fbclid=IwAR3NR5W7KjcAMHg2LzSa4r5JYKE5zoQT2Rm6dEJMFB-GDj47Jux3VpdQJWg').then((response) => {
+		axios.get('http://localhost:3000/transaction')
+			.then((response) => {
 			console.log(response.data);
 
 			this.setState({
-				theData: response.data
+				theData: response.data.data
 			});
 		});
 	}
@@ -75,8 +54,7 @@ class Table extends Component {
 	render() {
 		return (
 			<div className="container">
-				<div class="row" className="hdr">
-				</div>
+				<div class="row" className="hdr" />
 
 				<div style={{ marginTop: 20 }}>
 					<BootstrapTable
@@ -85,7 +63,7 @@ class Table extends Component {
 						keyField="id"
 						data={this.state.theData}
 						columns={this.state.columns}
-            filter={ filterFactory() }
+						filter={filterFactory()}
 						pagination={paginationFactory()}
 					/>
 				</div>
